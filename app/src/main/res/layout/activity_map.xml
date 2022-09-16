@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:map="http://schemas.android.com/apk/res-auto">
 
 
     <fragment
@@ -10,6 +11,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        map:mapId="@string/mapId"
         tools:context=".MapsActivity" />
 
     <RelativeLayout
@@ -25,24 +27,24 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:id="@+id/ic_magnifiy"
+            android:id="@+id/ic_magnify"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_magnify_foreground"/>
 
         <EditText
+            android:id="@+id/input_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ic_magnifiy"
             android:layout_centerVertical="true"
-            android:textSize="17sp"
-            android:textFontWeight="700"
-            android:textColor="@color/blue1"
-            android:textColorHint="@color/blue1"
-            android:id="@+id/input_search"
+            android:layout_toRightOf="@+id/ic_magnify"
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
-            android:imeOptions="actionSearch"/>
+            android:imeOptions="actionSearch"
+            android:textColor="@color/blue1"
+            android:textColorHint="@color/blue1"
+            android:textFontWeight="700"
+            android:textSize="17sp" />
 
     </RelativeLayout>
 

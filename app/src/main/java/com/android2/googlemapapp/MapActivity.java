@@ -6,6 +6,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,9 +29,12 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -65,29 +70,50 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
-        Places.initialize(getApplicationContext(),"AIzaSyCt0NIr9jL92fUTQEco4ZykynMCgR0JLMY");
+//        Places.initialize(getApplicationContext(),"AIzaSyCt0NIr9jL92fUTQEco4ZykynMCgR0JLMY");
+
 
     }
 
     private void init(){
         Log.d(TAG, "init: initializing");
 
+//        mSearchText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                geoLocate();
+//            }
+//        });
+
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                    || actionId == EditorInfo.IME_ACTION_DONE
-                    || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                    || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER)  {
-                    //execute our method for searching
-                    geoLocate();
-//                    mSearchText.getText().clear();
-                    mSearchText.setText(null);
-                    mSearchText.clearFocus();
+                if (keyEvent != null) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH
+                            || actionId == EditorInfo.IME_ACTION_DONE
+                            || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                            || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                        //execute our method for searching
+                        geoLocate();
+                        mSearchText.getText().clear();
+                        //mSearchText.setText(null);
+                        mSearchText.clearFocus();
+                    }
                 }
                 return false;
             }
         });
+
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,6 +197,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is Ready");
         mMap = googleMap;
+        mMap.setMapStyle(new MapStyleOptions("[{\"featureType\":\"all\"," +
+                "\"stylers\":[{\"saturation\":0},{\"hue\":\"#e7ecf0\"}]},{\"featureType" +
+                "\":\"road\",\"stylers\":[{\"saturation\":-70}]},{\"featureType\":" +
+                "\"transit\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType" +
+                "\":\"poi\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":" +
+                "\"water\",\"stylers\":[{\"visibility\":\"simplified\"},{\"saturation\":-60}]}]")
+        );
 
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
@@ -192,7 +225,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initMap() {
         Log.d(TAG, "onMapReady: initializing map");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment =  (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.newInstance(new GoogleMapOptions().mapId(getResources().getString(R.string.mapId)));
 
         mapFragment.getMapAsync(MapActivity.this);
     }
