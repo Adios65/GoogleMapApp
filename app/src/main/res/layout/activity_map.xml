@@ -40,13 +40,23 @@
             android:layout_toRightOf="@+id/ic_magnify"
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
-            android:imeOptions="actionSearch"
+            android:imeOptions="actionDone"
             android:textColor="@color/blue1"
             android:textColorHint="@color/blue1"
             android:textFontWeight="700"
             android:textSize="17sp" />
 
+        <fragment android:id="@+id/autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            />
+
+
+
     </RelativeLayout>
+
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -79,7 +89,15 @@
             android:textColorHint="@color/blue1"
             android:textSize="17sp" />
 
+        <fragment android:id="@+id/autocomplete_fragment2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            />
+
+
     </RelativeLayout>
+
 
     <ImageView
         android:id="@+id/ic_expand"
